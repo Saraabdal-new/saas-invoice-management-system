@@ -1,5 +1,4 @@
 const db = require("../../config/db");
-const { sequelize } = require("../../config/db");
 
 /**
  * Get full settings for user

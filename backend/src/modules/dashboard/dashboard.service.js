@@ -1,11 +1,13 @@
-const db = require('../../config/db');
-const { sequelize } = require('../../config/db');
+const db = require("../../config/db");
 
 exports.getSummary = async (userId) => {
   const [{ rows: revenue }] = await Promise.all([
-    db.query(`SELECT COALESCE(SUM(amount_paid),0) total FROM payments p
+    db.query(
+      `SELECT COALESCE(SUM(amount_paid),0) total FROM payments p
               JOIN invoices i ON p.invoices_id=i.id
-              WHERE i.users_id=$1`, [userId])
+              WHERE i.users_id=$1`,
+      [userId]
+    ),
   ]);
 
   const invoices = await db.query(
@@ -25,7 +27,7 @@ exports.getSummary = async (userId) => {
     totalRevenue: revenue[0].total,
     totalInvoices: invoices.rows[0].total,
     activeClients: clients.rows[0].total,
-    pendingInvoices: invoices.rows[0].pending
+    pendingInvoices: invoices.rows[0].pending,
   };
 };
 

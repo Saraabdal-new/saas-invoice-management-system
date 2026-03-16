@@ -1,5 +1,4 @@
-const db = require('../../config/db');
-const { sequelize } = require('../../config/db');
+const db = require("../../config/db");
 
 // Get all clients for user
 exports.getClients = async (userId) => {
@@ -37,9 +36,9 @@ exports.createClient = async (userId, data) => {
     email,
     phone,
     address,
-    status = 'active',
-    notes = '',
-    tags = ''
+    status = "active",
+    notes = "",
+    tags = "",
   } = data;
 
   const { rows } = await db.query(
@@ -55,16 +54,8 @@ exports.createClient = async (userId, data) => {
 
 // Update client (ownership protected)
 exports.updateClient = async (id, userId, data) => {
-  const {
-    name,
-    company_name,
-    email,
-    phone,
-    address,
-    status,
-    notes,
-    tags
-  } = data;
+  const { name, company_name, email, phone, address, status, notes, tags } =
+    data;
 
   const { rows } = await db.query(
     `UPDATE clients
@@ -81,18 +72,7 @@ exports.updateClient = async (id, userId, data) => {
        AND users_id=$10
        AND deleted_at IS NULL
      RETURNING *`,
-    [
-      name,
-      company_name,
-      email,
-      phone,
-      address,
-      status,
-      notes,
-      tags,
-      id,
-      userId
-    ]
+    [name, company_name, email, phone, address, status, notes, tags, id, userId]
   );
 
   return rows[0];

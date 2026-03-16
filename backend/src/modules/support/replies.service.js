@@ -1,15 +1,14 @@
-const db = require('../../config/db');
-const { sequelize } = require('../../config/db');
+const db = require("../../config/db");
 
 /**
  * Add reply to a support ticket
  */
 exports.addReply = async (ticketId, userId, data) => {
-    if (!data.message) {
-        throw new Error('Reply message is required');
-    }
+  if (!data.message) {
+    throw new Error("Reply message is required");
+  }
 
-    const query = `
+  const query = `
         INSERT INTO support_replies (
             support_tickets_id,
             users_id,
@@ -19,17 +18,17 @@ exports.addReply = async (ticketId, userId, data) => {
         RETURNING *
     `;
 
-    const values = [ticketId, userId, data.message];
-    const result = await db.query(query, values);
+  const values = [ticketId, userId, data.message];
+  const result = await db.query(query, values);
 
-    return result.rows[0];
+  return result.rows[0];
 };
 
 /**
  * Get all replies for a ticket
  */
 exports.getReplies = async (ticketId) => {
-    const query = `
+  const query = `
         SELECT
             sr.id,
             sr.message,
@@ -42,6 +41,6 @@ exports.getReplies = async (ticketId) => {
         ORDER BY sr.created_at ASC
     `;
 
-    const result = await db.query(query, [ticketId]);
-    return result.rows;
+  const result = await db.query(query, [ticketId]);
+  return result.rows;
 };
